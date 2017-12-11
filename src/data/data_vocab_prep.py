@@ -1,10 +1,9 @@
-
-import data_utils
 import argparse
-from collections import defaultdict
 import logging
-
+from collections import defaultdict
 from random import shuffle
+
+from data import data_utils
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--input', type=str, help='Input file path')

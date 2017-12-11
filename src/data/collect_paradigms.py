@@ -1,7 +1,7 @@
-import data_utils
-
 import argparse
 from collections import defaultdict
+
+from data import data_utils
 
 parser = argparse.ArgumentParser(description='Reading and processing a large gzip file')
 

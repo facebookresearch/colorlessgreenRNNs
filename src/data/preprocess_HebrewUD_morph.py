@@ -1,6 +1,6 @@
 
-import tree_module as tm
 import conll_utils
+import tree_module as tm
 
 
 def remove_segmented_morphemes_hebrew(t):
@@ -44,7 +44,6 @@ def remove_segmented_morphemes_hebrew(t):
         if merged_part == "":
             start = start - 1
         else:
-            # TODO understand which features should be copied, for example lemmas are not copied correctly
             t.nodes[start - 1].word = token[len(tokens_separated):]
             t.nodes[start - 1].lemma = head.lemma
             t.nodes[start - 1].pos = head.pos

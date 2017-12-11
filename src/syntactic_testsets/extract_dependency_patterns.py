@@ -1,13 +1,15 @@
 
-import data_proc.tree_module as tm
+import tree_module as tm
+
+import argparse
 import itertools
 from collections import defaultdict
 
 import numpy as np
 
-import argparse
-from utils import load_vocab, ltm_to_word, read_paradigms
 from generate_utils import is_good_form
+from utils import load_vocab, ltm_to_word, read_paradigms
+
 
 def safe_log(x):
     np.seterr(divide='ignore', invalid='ignore')

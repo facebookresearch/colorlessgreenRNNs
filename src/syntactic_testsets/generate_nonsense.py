@@ -1,13 +1,13 @@
 
+import argparse
 import random
+
 import pandas as pd
 
-from utils import read_paradigms, load_vocab, ltm_to_word, extract_sent_features, transform_gold, vocab_freqs
+import tree_module as tm
 from extract_dependency_patterns import grep_morph_pattern
 from generate_utils import is_good_form, get_alt_form, match_features, alt_numeral_morph
-
-import data.tree_module as tm
-import argparse
+from utils import read_paradigms, load_vocab, ltm_to_word, extract_sent_features, transform_gold, vocab_freqs
 
 
 def generate_morph_pattern_test(trees, pattern, paradigms, vocab, n_sentences=10):
@@ -131,12 +131,12 @@ def main():
     parser = argparse.ArgumentParser(description='Generating sentences based on patterns')
 
     parser.add_argument('--treebank', type=str, required=True,
-                        help='Input file path (in a CONLL column format)')
-    parser.add_argument('--paradigms', type=str)
-    parser.add_argument('--vocab', type=str, help='(LM) Vocabulary to generate words from')
+                        help='input file (in a CONLL column format)')
+    parser.add_argument('--paradigms', type=str, required=True, help="the dictionary of tokens and their morphological annotations")
+    parser.add_argument('--vocab', type=str, required=True,help='(LM) Vocabulary to generate words from')
     parser.add_argument('--patterns', type=str, required=True)
-    parser.add_argument('--output', type=str, required=True, help="Prefix for generated text and annotation data")
-    parser.add_argument('--lm_data', type=str, required=False, help="Path to LM data to estimate word frequencies")
+    parser.add_argument('--output', type=str, required=True, help="prefix for generated text and annotation data")
+    parser.add_argument('--lm_data', type=str, required=False, help="path to LM data to estimate word frequencies")
     args = parser.parse_args()
 
     trees = tm.load_trees_from_conll(args.treebank)

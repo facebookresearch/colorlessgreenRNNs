@@ -2,6 +2,8 @@ import sys
 
 file_name = sys.argv[1]
 
+
+
 for l in open(file_name):
     fields = l.strip().split("\t")
     if len(fields) == 10:
