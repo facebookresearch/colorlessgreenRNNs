@@ -1,0 +1,3 @@
+src/tmp/
+data/**/*.output_*
+data/lm/
