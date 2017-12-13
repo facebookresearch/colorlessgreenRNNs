@@ -4,7 +4,7 @@ import sys
 
 import pandas as pd
 
-from utils import load_vocab
+from syntactic_testsets.utils import load_vocab
 
 
 def get_best_val_score(f_name):
@@ -39,8 +39,9 @@ lang = sys.argv[1]
 
 path = "/private/home/gulordava/lstm_hyperparameters_exps/" + lang
 
-#model_type = ""
-model_type = sys.argv[2]
+model_type = ""
+if len(sys.argv) > 2:
+    model_type = sys.argv[2]
 
 path = path + "/" + model_type
 
@@ -82,20 +83,19 @@ vocab = load_vocab(path_lm_data + "/vocab.txt")
 
 # getting softmax outputs and the probabilities for pairs of test forms
 print("Reading softmax output for", len(models), "models from", path_output)
+print("Assembling probabilities for the choice forms")
 outputs = {}
+probs = pd.DataFrame([])
 for m in models:
     # normally, don't need .pt
     if os.path.isfile(path_output + m):
         print(m)
-        outputs[m] = open(path_output  + m).readlines()
+        output = open(path_output  + m).readlines()
+        print(len(output))
+        data[m] = lstm_probs(output, gold, vocab)
 
-print("Assembling probabilities for the choice forms")
-probs = pd.DataFrame([])
 models = list(outputs.keys())
 
-for model in models:
-    print(len(outputs[model]))
-    data[model] = lstm_probs(outputs[model], gold, vocab)
 
 # adding once the columns with information about the sentence and choice forms
 #all_models = df_t.reset_index(drop=True).join(probs)
