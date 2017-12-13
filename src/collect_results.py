@@ -108,5 +108,5 @@ print("All models", len(data))
 #full_df[fields].to_csv(input_data, sep="\t", index=False)
 fields = [f for f in data.columns if "hidden" not in f]
 
-data.to_csv(path_repo + "/results/" + model_type + "/" + lang + "_all_models.tab",sep="\t",index=False)
-data[fields + [best_model]].to_csv(path_repo + "/results/" + model_type + "/" + lang + "_best_model.tab",sep="\t",index=False)
+data.to_csv(path_repo + "/results/" + model_type + "/" + lang + "/all_models.tab",sep="\t",index=False)
+data[fields + [best_model]].to_csv(path_repo + "/results/" + model_type + "/" + lang + "/best_model.tab",sep="\t",index=False)

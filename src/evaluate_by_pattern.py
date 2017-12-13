@@ -12,7 +12,7 @@ else:
     model_type = "" 
 
 # getting results for the best model
-full_df = pd.read_csv("/private/home/gulordava/colorlessgreen/data/results/" + model_type + "/" + lang + "_best_model.tab",sep="\t")
+full_df = pd.read_csv("/private/home/gulordava/colorlessgreen/data/results/" + model_type + "/" + lang + "/best_model.tab",sep="\t")
 
 fields = ["pattern","constr_id","sent_id","n_attr","punct","len_prefix","len_context","sent","correct_number","type"]
 

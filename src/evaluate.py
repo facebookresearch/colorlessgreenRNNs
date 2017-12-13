@@ -54,7 +54,8 @@ for f in log_files:
 for f in sorted(models_ppls, key=models_ppls.get)[:10]:
     print(f, models_ppls[f])
 
-full_df = pd.read_csv("/private/home/gulordava/colorlessgreen/data/results/" + model_type + "/" + lang + "_all_models.tab",sep="\t")
+path_results = "/private/home/gulordava/colorlessgreen/data/results/" + model_type + "/" + lang + "/" 
+full_df = pd.read_csv(path_results + "all_models.tab",sep="\t")
 
 fields = ["pattern","constr_id","sent_id","n_attr","punct","len_prefix","len_context","sent","correct_number","type"]
 models = [f for f in full_df.columns if "hidden" in f]  + ["freq"]
@@ -82,7 +83,8 @@ a.acc_generated = a.acc_generated * 100
 a["ppls"] = a["model"].map(models_ppls)
 
 print("Top 10 models by perplexity")
-print(a.sort_values("ppls")[:10])
+print(a.sort_values("ppls")[:10].to_string(index=False))
+a.sort_values("ppls")[:10].to_csv(path_results + "accuracy_top10_ppls.tab",sep="\t")
 
 print("Most frequent baseline")
-print(a[a.model == "freq"])
+print(a[a.model == "freq"].to_string(index=False))
