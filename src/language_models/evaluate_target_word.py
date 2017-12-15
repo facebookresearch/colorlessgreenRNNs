@@ -14,14 +14,10 @@ parser.add_argument('--data', type=str,
                     help='location of the data corpus')
 parser.add_argument('--checkpoint', type=str,
                     help='model checkpoint to use')
-parser.add_argument('--outf', type=str, default='generated.txt',
-                    help='output file for generated text')
 parser.add_argument('--seed', type=int, default=1111,
                     help='random seed')
 parser.add_argument('--cuda', action='store_true',
                     help='use CUDA')
-parser.add_argument('--log-interval', type=int, default=100,
-                    help='reporting interval')
 
 parser.add_argument('--path', type=str, help='path to test file (text) gold file (indices of words to evaluate)')
 parser.add_argument('--suffix', type=str, help='suffix for generated output files which will be saved as path.output_suffix')
