@@ -20,6 +20,16 @@ def get_best_val_score(f_name):
     return min(ppls)
 
 
+def get_oov_valid_score(f_name):
+    """ valid score without OOV """
+    with open(f_name, "r") as f:
+        for line in f:
+            if "test " in line:
+                fields = [f for f in line.strip().split("|") if f != ""][1:]
+                values = [f.split()[-1] for f in fields]
+                return float(values[-1])
+
+
 def lstm_probs(output, gold, w2idx):
     data = []
     for scores, g in zip(output, gold):
@@ -52,14 +62,18 @@ path_lm_data = path_repo + "/lm/" + lang
 
 
 path_models = path + "/models/"
-path_logs = path + "/logs/"
+if model_type == "ngram_lstm":
+    path_logs = path + "/logs/"
+else:
+    path_logs = path + "/valid_ppls/"
+
 
 log_files = os.listdir(path_logs)
 
 models_ppls = {}
 for f in log_files:
-    val_ppl = get_best_val_score(path_logs + f)
-    if val_ppl > 0:
+    val_ppl = get_oov_valid_score(path_logs + f)
+    if val_ppl:
         if model_type:
             m = "_".join([model_type, f[:-4]])
         else:
@@ -96,16 +110,11 @@ for m in models:
 
 models = list(outputs.keys())
 
-
-# adding once the columns with information about the sentence and choice forms
-#all_models = df_t.reset_index(drop=True).join(probs)
-#all_models = all_models.drop("prob",axis=1)
 print("All models", len(data))
 
 #input_data = path_repo + "agreement/" + lang + ".tab"
 #print("Saving input data (wo models) to", input_data)
 
-#full_df[fields].to_csv(input_data, sep="\t", index=False)
 fields = [f for f in data.columns if "hidden" not in f]
 
 data.to_csv(path_repo + "/results/" + model_type + "/" + lang + "/all_models.tab",sep="\t",index=False)
