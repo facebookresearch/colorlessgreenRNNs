@@ -1,8 +1,9 @@
 # Colorless green RNNs
 
-This repository contains the code and data for the paper ``Colorless green recurrent networks dream hierarchically''
+This repository contains data and evaluation code for the following paper:
 
-Some of the data and code here are probably not useful for the public release, but we can temporarily store them here, and make local backups later when we go public.
+K. Gulordava, P. Bojanowski, E. Grave, T. Linzen, M.baroni. 2018. Colorless green recurrent networks dream hierarchically. Proceedings of NAACL.
 
-The most useful files for the general public are probably the ones in the `data` directory, see the readme file there for details.
+Please cite the paper if you use the resources in the repository.
+
 
