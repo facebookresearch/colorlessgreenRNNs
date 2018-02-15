@@ -1,4 +1,4 @@
-Most of the files in this directory should not be distributed (we might process them in the future, if, for example, somebody is interested in the response time data). The only file to be publicly released is `clean_full_amazon_results.tab`. This file contains an extended version of the unaggregated Amazon Mechanical Turk results, with anonymized turker ids. The fields are:
+The file `clean_full_amazon_results.tab` contains an extended version of the unaggregated Amazon Mechanical Turk results, with anonymized turker ids. The fields are:
 
 - worker_id: unique subject ID (NOT the same as Amazon ID)
 - type: target_generated, target_original or control
