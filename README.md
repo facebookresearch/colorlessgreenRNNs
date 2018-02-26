@@ -4,6 +4,8 @@ This repository contains data and evaluation code for the following paper:
 
 K. Gulordava, P. Bojanowski, E. Grave, T. Linzen, M.baroni. 2018. Colorless green recurrent networks dream hierarchically. Proceedings of NAACL.
 
+Supplementary materials available [here](sm.pdf).
+
 Please cite the paper if you use the resources in the repository.
 
 
