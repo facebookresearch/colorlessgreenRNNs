@@ -1,6 +1,14 @@
 This directory contains the long-distance agreement data, together with model and human subject performance.
 
-The file `best_model_mturk.tab` contains the Italian data, together with the results for the best LSTM model and aggregated subject performance. The file contains the following tab-delimited fields:
+Each language directory contains two files: `best_models.tab` and `all_models.tab`.
+
+The `best_models.tab` files report the same data as above for all the languages, and do not not incude subject data (the header of the best LSTM model columns also changes, as it concatenates the hyperparameter choices for the relevant language).
+
+The `all_models.tab` contains the same data, with columns for all the LSTM models.
+
+The corresponding data for the n-gram LSTMs and simple RNNs baselines are available as `best_model_ngram_lstm.tab`, `all_models_ngram_lstm.tab`, `best_model_srnn.tab` and `all_models_srnn.tab` respectively.
+
+For Italian, we also provide the file `best_model_mturk.tab` containing the Italian data, together with the results for the best LSTM model and aggregated subject performance. The file contains the following tab-delimited fields:
 
 1. pattern: construction (defined by the sequence of PoS tags) the current sentence instantiates
 
@@ -36,12 +44,3 @@ The file `best_model_mturk.tab` contains the Italian data, together with the res
 
 17) hidden650_batch64_dropout0.2_lr10.0: probability assigned to this target by best LSTM
 
-Each language directory contains two files: `best_models.tab` and `all_models.tab`.
-
-The `best_models.tab` files report the same data as above for all the languages, and do not not incude subject data (the header of the best LSTM model columns also changes, as it concatenates the hyperparameter choices for the relevant language).
-
-The `all_models.tab` contains the same data, with columns for all the LSTM models.
-
-The `ngram_lstm` and `srnn` directories contain corresponding data for the n-gram LSTMs and simple RNNs, respectively.
-
-**NB**: the file `Italian_accuracies.tab` in the `Italian` directory is redundant and obsolete, and it should be eventually deleted.
