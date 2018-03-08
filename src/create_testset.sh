@@ -1,10 +1,12 @@
+#!/bin/bash
 
-# path to treebank
+# path to a treebank
 # should be preprocessed for English and Hebrew
-treebank="$HOME/edouard_data/enwiki/en-ud-train.conllu_new"
+# you can download original UD treebanks from http://universaldependencies.org/, we used 2.0 version
+treebank="../data/treebanks/en-ud-train.conllu_processed"
 lang="English"
 
-# default paths that should work for all languages
+# path to the training LM data e.g.
 lm_data="../data/lm/$lang/"
 
 mkdir -p tmp/$lang
@@ -14,7 +16,7 @@ echo "== collect paradigms =="
 python data/collect_paradigms.py --input $treebank --output tmp/$lang/paradigms.txt --min_freq 0
 
 echo "== extract agreement constructions =="
-# extracting patterns which correpond to agreement relation
+# extracting patterns which correspond to agreement relation
 python syntactic_testsets/extract_dependency_patterns.py --treebank $treebank --output tmp/$lang/ --features Number --vocab $lm_data/vocab.txt --paradigms tmp/$lang/paradigms.txt
 
 echo "== generate test set =="
