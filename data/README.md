@@ -24,3 +24,7 @@ The models were trained with the vocabularies given above. Each vocabulary lists
 * [Hebrew model](https://s3.amazonaws.com/colorless-green-rnns/best-models/Hebrew/hidden650_batch64_dropout0.1_lr20.0.pt)
 * [Italian model](https://s3.amazonaws.com/colorless-green-rnns/best-models/Italian/hidden650_batch64_dropout0.2_lr20.0.pt)
 * [Russian model](https://s3.amazonaws.com/colorless-green-rnns/best-models/Russian/hidden650_batch64_dropout0.2_lr20.0.pt)
+
+-------
+
+Please cite the paper if you use the above resources.
