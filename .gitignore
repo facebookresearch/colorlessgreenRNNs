@@ -1,3 +1,4 @@
 src/tmp/
 data/**/*.output_*
 **/__pycache__
+src/**/*.pyc

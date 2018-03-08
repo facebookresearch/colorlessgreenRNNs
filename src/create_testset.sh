@@ -6,7 +6,7 @@
 treebank="../data/treebanks/en-ud-train.conllu_processed"
 lang="English"
 
-# path to the training LM data e.g.
+# path to the training LM data, including vocab.txt, e.g.
 lm_data="../data/lm/$lang/"
 
 mkdir -p tmp/$lang

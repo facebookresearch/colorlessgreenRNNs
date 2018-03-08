@@ -38,7 +38,7 @@ def evaluate(data_source, mask):
         output_flat = output.view(-1, vocab_size)
         total_loss += len(data) * nn.CrossEntropyLoss()(output_flat, targets).data
 
-        output_candidates_probs(output_flat.data.cpu(), targets.data.cpu(), targets_mask.data.cpu())
+        output_candidates_probs(output_flat, targets, targets_mask)
 
         hidden = repackage_hidden(hidden)
 
@@ -46,19 +46,15 @@ def evaluate(data_source, mask):
 
 
 def output_candidates_probs(output_flat, targets, mask):
-    """
-    :param output_flat: Tensor (not Variable) of data_size x vocab_size
-    :param targets: Tensor (not Variable) of data_size
-    """
     log_probs = F.log_softmax(output_flat).data
 
-    log_probs_np = log_probs.numpy()
-    subset = mask.numpy().astype(bool)
+    log_probs_np = log_probs.cpu().numpy()
+    subset = mask.data.cpu().numpy().astype(bool)
 
     idx2word = dictionary.idx2word
 
-    for scores, correct_label in zip(log_probs_np[subset], targets.numpy()[subset]):
-        print(idx2word[correct_label], scores[correct_label])
+    for scores, correct_label in zip(log_probs_np[subset], targets.data.cpu().numpy()[subset]):
+        #print(idx2word[correct_label], scores[correct_label])
         f_output.write("\t".join(str(s) for s in scores) + "\n")
 
 
@@ -110,7 +106,7 @@ print("TESTING")
 # assuming the mask file contains one number per line indicating the index of the target word
 index_col = 0
 
-mask = create_target_mask(args.path + ".text", args.path + ".gold", index_col)
+mask = create_target_mask(args.path + ".text", args.path + ".eval", index_col)
 mask_data = batchify(torch.LongTensor(mask), eval_batch_size, args.cuda)
 test_data = batchify(dictionary_corpus.tokenize(dictionary, args.path + ".text"), eval_batch_size, args.cuda)
 
