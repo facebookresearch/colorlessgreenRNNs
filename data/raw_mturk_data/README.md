@@ -1,4 +1,4 @@
-The file `clean_full_amazon_results.tab` contains an extended version of the unaggregated Amazon Mechanical Turk results, with anonymized turker ids. (It is a superset of data used of LM evaluation.) The fields are:
+The file `clean_full_amazon_results.tab` contains an extended version of the unaggregated Amazon Mechanical Turk results, with anonymized turker ids. (It is a superset of data used for LM evaluation.) The fields are:
 
 - `worker_id`  unique subject ID (NOT the same as Amazon ID)
 - `type`  *target_generated*, *target_original* or *control*
