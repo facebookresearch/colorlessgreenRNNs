@@ -16,7 +16,7 @@ Each corpus consists of around 100M tokens, we used training (80M) and validatio
 
 ### Pre-trained language models
 
-For each language, we distribute the trained LSTM model which achieved the lowest perplexity on our test set (validation in the data above). The name of the model file indicates the hyperparameters that were used to train this model. See the supplementary materials for more details.
+For each language, we distribute the trained LSTM model which achieved the lowest perplexity on our test set (validation in the data above). The name of the model file indicates the hyperparameters that were used to train this model. See the supplementary materials for more details, and scripts in the [src](../src) directory for usage examples.
 
 The models were trained with the vocabularies given above. Each vocabulary lists words according to their indices starting from 0, `<unk>` and `<eos>` tokens are already in the vocabulary.
 
