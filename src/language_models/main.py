@@ -12,7 +12,7 @@ from lm_argparser import lm_parser
 from utils import repackage_hidden, get_batch, batchify
 
 parser = argparse.ArgumentParser(parents=[lm_parser],
-                                 description="Training multilingual LM with tied input embedding matrix and output softmax matrix")
+                                 description="Basic training and evaluation for RNN LM")
 
 args = parser.parse_args()
 
