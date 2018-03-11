@@ -8,4 +8,6 @@ Supplementary materials available [here](sm.pdf).
 
 Please cite the paper if you use the resources in the repository.
 
+We expect that most users will be interested in the [data](data) directory, that contains our training corpora, pre-trained models and agreement test sets.
+
 
