@@ -19,7 +19,7 @@ Our generated data tested in the paper is in `../data/agreement/English/generate
 
 #### Evaluating a language model
 
-You can use your trained `model_x.pt` or download our pre-trained best model.
+You can use your trained `model_x.pt` or download our [pre-trained best model](../data).
 
 Run the command (`--cuda` is optional)
 
