@@ -1,7 +1,7 @@
 ## Data for model training and evaluation
 
 - `agreement` contains evaluation data generated based on long distance agreement patterns
-- `extended_test_data` contains evaluation data and results of our trained models
+- `evaluation_output` contains evaluation data and results of our trained models (this is probably where you want to look at, if you're interested in using our agreement test sets)
 - `linzen_testset` contains the subset of data from *Linzen et al. TACL 2016* (https://github.com/TalLinzen/rnn_agreement) which we used for our evaluation
 - `raw_mturk_data` contains the reponses of MTurk subjects for the extended Italian agreement data 
 
