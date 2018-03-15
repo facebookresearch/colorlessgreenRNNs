@@ -32,7 +32,7 @@ For Italian, we provide the file `best_model_mturk.tab` containing the Italian d
 
 13) `len_prefix`  number of words from beginning of sentence up to and excluding target
 
-14) `sent`  full sentence with information used to construct stimuli (that can safely be ignored)
+14) `sent`  this field contains information used in the process to construct stimuli, and should be ignored
 
 15) `full_id`  unique id for the sentence (shared across candidate targets)
 
