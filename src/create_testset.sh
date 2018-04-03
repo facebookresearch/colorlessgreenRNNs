@@ -22,15 +22,17 @@ mkdir -p tmp/$lang
 
 # extracting word forms, lemmas and morphological features
 echo "== collect paradigms =="
-python data/collect_paradigms.py --input $treebank --output tmp/$lang/paradigms.txt --min_freq 0
+#python data/collect_paradigms.py --input $treebank --output tmp/$lang/paradigms.txt --min_freq 0
 
 echo "== extract agreement constructions =="
 # extracting patterns which correspond to agreement relation
-python syntactic_testsets/extract_dependency_patterns.py --treebank $treebank --output tmp/$lang/ --features Number --vocab $lm_data/vocab.txt --paradigms tmp/$lang/paradigms.txt
+#python syntactic_testsets/extract_dependency_patterns.py --treebank $treebank --output tmp/$lang/ --features Number --vocab $lm_data/vocab.txt --paradigms tmp/$lang/paradigms.txt
 
 echo "== generate test set =="
 # given a list of patterns, grep corresponding instances which satisfy generation conditions 
 python syntactic_testsets/generate_nonsense.py --treebank $treebank --paradigms tmp/$lang/paradigms.txt \
-                                               --vocab $lm_data/vocab.txt --patterns tmp/$lang/patterns.txt --output ../data/agreement/$lang/generated
+                                               --vocab $lm_data/vocab.txt --patterns tmp/$lang/patterns.txt \
+                                               --output ../data/agreement/$lang/generated \
+                                               --lm_data $lm_data   # for estimation of token probabilities from LM training data
 
 

@@ -57,7 +57,10 @@ if os.path.isfile(path_output + model):
 #data.to_csv(path_result, sep="\t", index=False)
 
 #### Computing accuracy for the model (and frequency baseline) ####
-models = [model, "freq"]
+if "freq" in data:
+    models = [model, "freq"]
+else:
+    models = [model]
 
 fields = ["pattern","constr_id","sent_id","n_attr","punct","len_prefix","len_context","sent","correct_number","type"]
 wide_data = data[fields + ["class"] + models].pivot_table(columns=("class"), values=models, index=fields)
