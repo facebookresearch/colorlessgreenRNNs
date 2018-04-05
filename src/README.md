@@ -19,17 +19,17 @@ Our generated data tested in the paper is in `../data/agreement/English/generate
 
 #### Evaluating a language model
 
-You can use your trained `model_x.pt` or download our [pre-trained best model](../data).
+You can use your trained `model.pt` or download our [pre-trained best model](../data).
 
 Run the command (`--cuda` is optional)
 
 ```bash
-python language_models/evaluate_target_word.py --data ../data/lm/English/ --checkpoint model_x.pt --path ../data/agreement/English/generated --suffix model_x --cuda
+python language_models/evaluate_target_word.py --data ../data/lm/English/ --checkpoint model.pt --path ../data/agreement/English/generated --suffix best_model --cuda
 ```
 
-to produce the file `../data/agreement/English/generated.output_model_x` with probabilities for target word positions.
+to produce the tab-delimited file `../data/agreement/English/generated.output_best_model` with probabilities for target word positions. The value of `--suffix` argument is used as the name of the column containing model probabilities.
 
-Run `python results.py English model_x` to obtain a summary of performance for `model_x` extracted from the output file (works with default paths). 
+Run `python results.py English best_model` to obtain a summary of performance for `best_model` (the column name) extracted from the output file (works with default paths). 
 
 *Note:* this workflow made sense for our evaluations but is not the most direct way to obtain accuracy numbers. We might provide a simplified script for evaluation in the future.
 
