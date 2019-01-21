@@ -9,10 +9,10 @@
 
 Each corpus consists of around 100M tokens, we used training (80M) and validation (10M) subsets in our experiments. All corpora were shuffled at sentence level.
 
-- English [train](https://s3.amazonaws.com/colorless-green-rnns/training-data/English/train.txt) / [valid](https://s3.amazonaws.com/colorless-green-rnns/training-data/English/valid.txt) / [test](https://s3.amazonaws.com/colorless-green-rnns/training-data/English/test.txt) / [vocab](https://s3.amazonaws.com/colorless-green-rnns/training-data/English/vocab.txt)
-- Hebrew [train](https://s3.amazonaws.com/colorless-green-rnns/training-data/Hebrew/train.txt) / [valid](https://s3.amazonaws.com/colorless-green-rnns/training-data/Hebrew/valid.txt) / [test](https://s3.amazonaws.com/colorless-green-rnns/training-data/Hebrew/test.txt) / [vocab](https://s3.amazonaws.com/colorless-green-rnns/training-data/Hebrew/vocab.txt)
-- Italian [train](https://s3.amazonaws.com/colorless-green-rnns/training-data/Italian/train.txt) / [valid](https://s3.amazonaws.com/colorless-green-rnns/training-data/Italian/valid.txt) / [test](https://s3.amazonaws.com/colorless-green-rnns/training-data/Italian/test.txt) / [vocab](https://s3.amazonaws.com/colorless-green-rnns/training-data/Italian/vocab.txt)
-- Russian [train](https://s3.amazonaws.com/colorless-green-rnns/training-data/Russian/train.txt) / [valid](https://s3.amazonaws.com/colorless-green-rnns/training-data/Russian/valid.txt) / [test](https://s3.amazonaws.com/colorless-green-rnns/training-data/Russian/test.txt) / [vocab](https://s3.amazonaws.com/colorless-green-rnns/training-data/Russian/vocab.txt)
+- English [train](https://dl.fbaipublicfiles.com/colorless-green-rnns/training-data/English/train.txt) / [valid](https://dl.fbaipublicfiles.com/colorless-green-rnns/training-data/English/valid.txt) / [test](https://dl.fbaipublicfiles.com/colorless-green-rnns/training-data/English/test.txt) / [vocab](https://dl.fbaipublicfiles.com/colorless-green-rnns/training-data/English/vocab.txt)
+- Hebrew [train](https://dl.fbaipublicfiles.com/colorless-green-rnns/training-data/Hebrew/train.txt) / [valid](https://dl.fbaipublicfiles.com/colorless-green-rnns/training-data/Hebrew/valid.txt) / [test](https://dl.fbaipublicfiles.com/colorless-green-rnns/training-data/Hebrew/test.txt) / [vocab](https://dl.fbaipublicfiles.com/colorless-green-rnns/training-data/Hebrew/vocab.txt)
+- Italian [train](https://dl.fbaipublicfiles.com/colorless-green-rnns/training-data/Italian/train.txt) / [valid](https://dl.fbaipublicfiles.com/colorless-green-rnns/training-data/Italian/valid.txt) / [test](https://dl.fbaipublicfiles.com/colorless-green-rnns/training-data/Italian/test.txt) / [vocab](https://dl.fbaipublicfiles.com/colorless-green-rnns/training-data/Italian/vocab.txt)
+- Russian [train](https://dl.fbaipublicfiles.com/colorless-green-rnns/training-data/Russian/train.txt) / [valid](https://dl.fbaipublicfiles.com/colorless-green-rnns/training-data/Russian/valid.txt) / [test](https://dl.fbaipublicfiles.com/colorless-green-rnns/training-data/Russian/test.txt) / [vocab](https://dl.fbaipublicfiles.com/colorless-green-rnns/training-data/Russian/vocab.txt)
 
 ### Pre-trained language models
 
@@ -20,10 +20,10 @@ For each language, we distribute the trained LSTM model which achieved the lowes
 
 The models were trained with the vocabularies given above. Each vocabulary lists words according to their indices starting from 0, `<unk>` and `<eos>` tokens are already in the vocabulary.
 
-* [English model](https://s3.amazonaws.com/colorless-green-rnns/best-models/English/hidden650_batch128_dropout0.2_lr20.0.pt)
-* [Hebrew model](https://s3.amazonaws.com/colorless-green-rnns/best-models/Hebrew/hidden650_batch64_dropout0.1_lr20.0.pt)
-* [Italian model](https://s3.amazonaws.com/colorless-green-rnns/best-models/Italian/hidden650_batch64_dropout0.2_lr20.0.pt)
-* [Russian model](https://s3.amazonaws.com/colorless-green-rnns/best-models/Russian/hidden650_batch64_dropout0.2_lr20.0.pt)
+* [English model](https://dl.fbaipublicfiles.com/colorless-green-rnns/best-models/English/hidden650_batch128_dropout0.2_lr20.0.pt)
+* [Hebrew model](https://dl.fbaipublicfiles.com/colorless-green-rnns/best-models/Hebrew/hidden650_batch64_dropout0.1_lr20.0.pt)
+* [Italian model](https://dl.fbaipublicfiles.com/colorless-green-rnns/best-models/Italian/hidden650_batch64_dropout0.2_lr20.0.pt)
+* [Russian model](https://dl.fbaipublicfiles.com/colorless-green-rnns/best-models/Russian/hidden650_batch64_dropout0.2_lr20.0.pt)
 
 -------
 
