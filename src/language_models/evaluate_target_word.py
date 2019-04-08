@@ -49,7 +49,7 @@ def evaluate(data_source, mask):
 
         hidden = repackage_hidden(hidden)
 
-    return total_loss[0] / len(data_source)
+    return total_loss[0] / (len(data_source) - 1)
 
 
 def output_candidates_probs(output_flat, targets, mask):
