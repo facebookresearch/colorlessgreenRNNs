@@ -6,21 +6,21 @@
 #
 
 
-from torch.autograd import Variable
+import torch
 
 def repackage_hidden(h):
-    """Wraps hidden states in new Variables, to detach them from their history."""
-    if type(h) == Variable:
-        return Variable(h.data)
+    """Detaches hidden states from their history."""
+    if isinstance(h, torch.Tensor):
+        return h.detach()
     else:
         return tuple(repackage_hidden(v) for v in h)
 
 
-def get_batch(source, i, seq_length, evaluation=False):
+def get_batch(source, i, seq_length):
     seq_len = min(seq_length, len(source) - 1 - i)
-    data = Variable(source[i:i+seq_len], volatile=evaluation)
+    data = source[i:i+seq_len]
     # predict the sequences shifted by one word
-    target = Variable(source[i+1:i+1+seq_len].view(-1))
+    target = source[i+1:i+1+seq_len].view(-1)
     return data, target
 
 

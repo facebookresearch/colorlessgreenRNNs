@@ -14,7 +14,6 @@ import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from torch.autograd import Variable
 
 from dictionary_corpus import Corpus, Dictionary, tokenize
 from utils import batchify
@@ -103,28 +102,28 @@ class RNNModel(nn.Module):
     def init_hidden(self, bsz):
         weight = next(self.parameters()).data
         if self.rnn_type == 'LSTM':
-            return (Variable(weight.new(self.nlayers, bsz, self.nhid).zero_()),
-                    Variable(weight.new(self.nlayers, bsz, self.nhid).zero_()))
+            return (weight.new(self.nlayers, bsz, self.nhid).zero_(),
+                    weight.new(self.nlayers, bsz, self.nhid).zero_())
         else:
-            return Variable(weight.new(self.nlayers, bsz, self.nhid).zero_())
+            return weight.new(self.nlayers, bsz, self.nhid).zero_()
 
 
 
 
-def get_batch(source, i, seq_length, evaluation=False):
+def get_batch(source, i, seq_length):
     seq_len = min(seq_length, len(source) - 1 - i)
     #print("Sequence length", seq_len)
     #print(source)
-    data = Variable(source[i:i+seq_len], volatile=evaluation)
+    data = source[i:i+seq_len]
     #print(data)
     #> predict the sequences shifted by one word
-    target = Variable(source[i+seq_len].view(-1))
+    target = source[i+seq_len].view(-1)
     #print(target)
     return data, target
 
 def create_target_mask(test_file, gold_file, index_col):
-    sents = open(test_file, "r").readlines()
-    golds = open(gold_file, "r").readlines()
+    sents = open(test_file, "r", encoding="utf8").readlines()
+    golds = open(gold_file, "r", encoding="utf8").readlines()
     #TODO optimize by initializaing np.array of needed size and doing indexing
     targets = []
     for sent, gold in zip(sents, golds):
@@ -150,23 +149,24 @@ def evaluate_perplexity(data_source, exclude_oov=False):
         torch_range =  torch.cuda.LongTensor()
     else:
         torch_range = torch.LongTensor()
+    
+    with torch.no_grad():
+        for i in range(0, data_source.size(0) - 1):
+            hidden = model.init_hidden(eval_batch_size)
+            data, targets = get_batch(data_source, i, args.bptt)
+            #> output has size seq_length x batch_size x vocab_size
+            output = model(data, hidden)
+            output_flat = output.view(-1, ntokens)
 
-    for i in range(0, data_source.size(0) - 1):
-        hidden = model.init_hidden(eval_batch_size)
-        data, targets = get_batch(data_source, i, args.bptt, evaluation=True)
-        #> output has size seq_length x batch_size x vocab_size
-        output = model(data, hidden)
-        output_flat = output.view(-1, ntokens)
+            # excluding OOV
+            if exclude_oov:
+                subset = targets != unk_idx
+                subset = subset.data
+                targets = targets[subset]
+                output_flat = output_flat[torch.arange(0, output_flat.size(0), out=torch_range)[subset]]
 
-        # excluding OOV
-        if exclude_oov:
-            subset = targets != unk_idx
-            subset = subset.data
-            targets = targets[subset]
-            output_flat = output_flat[torch.arange(0, output_flat.size(0), out=torch_range)[subset]]
-
-        total_loss += targets.size(0) * nn.CrossEntropyLoss()(output_flat, targets).data
-        len_data += targets.size(0)
+            total_loss += targets.size(0) * nn.CrossEntropyLoss()(output_flat, targets).data
+            len_data += targets.size(0)
 
     return total_loss[0] / len_data
 
@@ -319,7 +319,7 @@ if args.train:
         logging.info('Exiting from training early')
 
     # Load the best saved model.
-    with open(args.save, 'rb') as f:
+    with open(args.save, 'rb', encoding="utf8") as f:
         model = torch.load(f)
 
     # Run on valid data with OOV excluded
@@ -337,7 +337,7 @@ if args.test:
 
     dictionary = Dictionary(args.data)
 
-    with open(args.save, 'rb') as f:
+    with open(args.save, 'rb', encoding="utf8") as f:
         print("Loading the model")
         if args.cuda:
             model = torch.load(f)

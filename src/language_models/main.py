@@ -79,18 +79,20 @@ def evaluate(data_source):
     total_loss = 0
     hidden = model.init_hidden(eval_batch_size)
 
-    for i in range(0, data_source.size(0) - 1, args.bptt):
-        data, targets = get_batch(data_source, i, args.bptt, evaluation=True)
-        #> output has size seq_length x batch_size x vocab_size
-        output, hidden = model(data, hidden)
-        #> output_flat has size num_targets x vocab_size (batches are stacked together)
-        #> ! important, otherwise softmax computation (e.g. with F.softmax()) is incorrect
-        output_flat = output.view(-1, ntokens)
-        #output_candidates_info(output_flat.data, targets.data)
-        total_loss += len(data) * nn.CrossEntropyLoss()(output_flat, targets).data
-        hidden = repackage_hidden(hidden)
+    with torch.no_grad():
+        for i in range(0, data_source.size(0) - 1, args.bptt):
+            data, targets = get_batch(data_source, i, args.bptt)
+            #> output has size seq_length x batch_size x vocab_size
+            output, hidden = model(data, hidden)
+            #> output_flat has size num_targets x vocab_size (batches are stacked together)
+            #> ! important, otherwise softmax computation (e.g. with F.softmax()) is incorrect
+            output_flat = output.view(-1, ntokens)
+            #output_candidates_info(output_flat.data, targets.data)
+            total_loss += len(data) * nn.CrossEntropyLoss()(output_flat, targets).data
+            hidden = repackage_hidden(hidden)
 
-    return total_loss[0] /len(data_source - 1)
+
+    return total_loss.item() /len(data_source - 1)
 
 
 def train():
@@ -114,7 +116,7 @@ def train():
         loss.backward()
 
         # `clip_grad_norm` helps prevent the exploding gradient problem in RNNs / LSTMs.
-        torch.nn.utils.clip_grad_norm(model.parameters(), args.clip)
+        torch.nn.utils.clip_grad_norm_(model.parameters(), args.clip)
         for p in model.parameters():
             p.data.add_(-lr, p.grad.data)
 
