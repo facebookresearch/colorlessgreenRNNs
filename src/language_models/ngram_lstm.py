@@ -122,8 +122,8 @@ def get_batch(source, i, seq_length):
     return data, target
 
 def create_target_mask(test_file, gold_file, index_col):
-    sents = open(test_file, "r").readlines()
-    golds = open(gold_file, "r").readlines()
+    sents = open(test_file, "r", encoding="utf8").readlines()
+    golds = open(gold_file, "r", encoding="utf8").readlines()
     #TODO optimize by initializaing np.array of needed size and doing indexing
     targets = []
     for sent, gold in zip(sents, golds):
@@ -319,7 +319,7 @@ if args.train:
         logging.info('Exiting from training early')
 
     # Load the best saved model.
-    with open(args.save, 'rb') as f:
+    with open(args.save, 'rb', encoding="utf8") as f:
         model = torch.load(f)
 
     # Run on valid data with OOV excluded
@@ -337,7 +337,7 @@ if args.test:
 
     dictionary = Dictionary(args.data)
 
-    with open(args.save, 'rb') as f:
+    with open(args.save, 'rb', encoding="utf8") as f:
         print("Loading the model")
         if args.cuda:
             model = torch.load(f)
