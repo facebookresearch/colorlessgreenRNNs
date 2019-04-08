@@ -90,7 +90,7 @@ def evaluate(data_source):
         total_loss += len(data) * nn.CrossEntropyLoss()(output_flat, targets).data
         hidden = repackage_hidden(hidden)
 
-    return total_loss[0] /len(data_source)
+    return total_loss[0] /len(data_source - 1)
 
 
 def train():
