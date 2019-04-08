@@ -18,7 +18,7 @@ class Dictionary(object):
 
         vocab_path = os.path.join(path, 'vocab.txt')
         try:
-            vocab = open(vocab_path).read()
+            vocab = open(vocab_path, encoding="utf8").read()
             self.word2idx = {w: i for i, w in enumerate(vocab.split())}
             self.idx2word = [w for w in vocab.split()]
             self.vocab_file_exists = True
@@ -38,7 +38,7 @@ class Dictionary(object):
         return len(self.idx2word)
 
     def create_vocab(self, path):
-        with open(path, 'r') as f:
+        with open(path, 'r', encoding="utf8") as f:
             for line in f:
                 words = line.split()
                 for word in words:
@@ -57,14 +57,14 @@ def tokenize(dictionary, path):
     """Tokenizes a text file for training or testing to a sequence of indices format
        We assume that training and test data has <eos> symbols """
     assert os.path.exists(path)
-    with open(path, 'r') as f:
+    with open(path, 'r', encoding="utf8") as f:
         ntokens = 0
         for line in f:
             words = line.split()
             ntokens += len(words)
 
     # Tokenize file content
-    with open(path, 'r') as f:
+    with open(path, 'r', encoding="utf8") as f:
         ids = torch.LongTensor(ntokens)
         token = 0
         for line in f:

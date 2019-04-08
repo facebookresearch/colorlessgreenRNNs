@@ -41,26 +41,27 @@ def evaluate(data_source):
         out_type =  torch.cuda.LongTensor()
     else:
         out_type = torch.LongTensor()
-    for i in range(0, data_source.size(0) - 1, args.bptt):
-        data, targets = get_batch(data_source, i, args.bptt, evaluation=True)
-        #> output has size seq_length x batch_size x vocab_size
-        output, hidden = model(data, hidden)
-        #> output_flat has size num_targets x vocab_size (batches are stacked together)
-        #> ! important, otherwise softmax computation (e.g. with F.softmax()) is incorrect
-        output_flat = output.view(-1, ntokens)
-        #output_candidates_info(output_flat.data, targets.data)
+    with torch.no_grad():
+        for i in range(0, data_source.size(0) - 1, args.bptt):
+            data, targets = get_batch(data_source, i, args.bptt)
+            #> output has size seq_length x batch_size x vocab_size
+            output, hidden = model(data, hidden)
+            #> output_flat has size num_targets x vocab_size (batches are stacked together)
+            #> ! important, otherwise softmax computation (e.g. with F.softmax()) is incorrect
+            output_flat = output.view(-1, ntokens)
+            #output_candidates_info(output_flat.data, targets.data)
 
-        subset = targets != unk_idx
-        subset = subset.data
-        #print(targets.size())
-        #print(subset.size())
-        targets = targets[subset]
+            subset = targets != unk_idx
+            subset = subset.data
+            #print(targets.size())
+            #print(subset.size())
+            targets = targets[subset]
 
-        output_flat = output_flat[torch.arange(0, output_flat.size(0), out=out_type)[subset]]
+            output_flat = output_flat[torch.arange(0, output_flat.size(0), out=out_type)[subset]]
 
-        total_len += targets.size(0)
-        total_loss += targets.size(0) * nn.CrossEntropyLoss()(output_flat, targets).data
-        hidden = repackage_hidden(hidden)
+            total_len += targets.size(0)
+            total_loss += targets.size(0) * nn.CrossEntropyLoss()(output_flat, targets).data
+            hidden = repackage_hidden(hidden)
 
     return total_loss[0] / total_len
 
