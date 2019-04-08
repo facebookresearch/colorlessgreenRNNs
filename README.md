@@ -10,4 +10,6 @@ Please cite the paper if you use the resources in the repository.
 
 We expect that most users will be interested in the [data](data) directory, that contains our training corpora, pre-trained models and agreement test sets.
 
+## PyTorch Compatibility
 
+The master branch of this code is compatible with PyTorch 1.0. If you want to run with PyTorch prior to 0.3, please checkout commit 5008edf512e4bca5bd637f42957c3e60bb142059.
