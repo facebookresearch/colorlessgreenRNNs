@@ -23,7 +23,7 @@ parser = argparse.ArgumentParser(parents=[lm_parser],
 
 args = parser.parse_args()
 
-logging.basicConfig(level=logging.INFO, handlers=[#logging.StreamHandler(),
+logging.basicConfig(level=logging.INFO, handlers=[logging.StreamHandler(),
                                                   logging.FileHandler(args.log)])
 logging.info(args)
 
@@ -43,16 +43,16 @@ logging.info("Loading data")
 start = time.time()
 corpus = Corpus(args.data)
 logging.info("( %.2f )" % (time.time() - start))
-#logging.info(corpus.train)
+ntokens = len(corpus.dictionary)
+logging.info("Vocab size %d", ntokens)
 
 logging.info("Batchying..")
 eval_batch_size = 10
 train_data = batchify(corpus.train, args.batch_size, args.cuda)
-#logging.info("Train data size", train_data.size())
 val_data = batchify(corpus.valid, eval_batch_size, args.cuda)
 test_data = batchify(corpus.test, eval_batch_size, args.cuda)
 
-ntokens = len(corpus.dictionary)
+
 
 criterion = nn.CrossEntropyLoss()
 
@@ -88,11 +88,10 @@ def evaluate(data_source):
             #> ! important, otherwise softmax computation (e.g. with F.softmax()) is incorrect
             output_flat = output.view(-1, ntokens)
             #output_candidates_info(output_flat.data, targets.data)
-            total_loss += len(data) * nn.CrossEntropyLoss()(output_flat, targets).data
+            total_loss += len(data) * nn.CrossEntropyLoss()(output_flat, targets).item()
             hidden = repackage_hidden(hidden)
 
-
-    return total_loss.item() /len(data_source - 1)
+    return total_loss / len(data_source) - 1
 
 
 def train():
@@ -100,8 +99,6 @@ def train():
     model.train()
     total_loss = 0
     start_time = time.time()
-    ntokens = len(corpus.dictionary)
-    logging.info("Vocab size %d", ntokens)
 
     hidden = model.init_hidden(args.batch_size)
 
@@ -120,10 +117,10 @@ def train():
         for p in model.parameters():
             p.data.add_(-lr, p.grad.data)
 
-        total_loss += loss.data
+        total_loss += loss.item()
 
         if batch % args.log_interval == 0 and batch > 0:
-            cur_loss = total_loss[0] / args.log_interval
+            cur_loss = total_loss / args.log_interval
             elapsed = time.time() - start_time
             logging.info('| epoch {:3d} | {:5d}/{:5d} batches | lr {:02.2f} | ms/batch {:5.2f} | '
                     'loss {:5.2f} | ppl {:8.2f}'.format(
@@ -138,7 +135,7 @@ best_val_loss = None
 
 # At any point you can hit Ctrl + C to break out of training early.
 try:
-    for epoch in range(1, args.epochs+1):
+    for epoch in range(1, args.epochs + 1):
         epoch_start_time = time.time()
 
         train()

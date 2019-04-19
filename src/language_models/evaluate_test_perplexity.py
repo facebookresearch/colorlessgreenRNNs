@@ -38,42 +38,33 @@ def evaluate(data_source):
     unk_idx = dictionary.word2idx["<unk>"]
 
     if args.cuda:
-        out_type =  torch.cuda.LongTensor()
+        out_type = torch.cuda.LongTensor()
     else:
         out_type = torch.LongTensor()
+
     with torch.no_grad():
         for i in range(0, data_source.size(0) - 1, args.bptt):
             data, targets = get_batch(data_source, i, args.bptt)
-            #> output has size seq_length x batch_size x vocab_size
             output, hidden = model(data, hidden)
-            #> output_flat has size num_targets x vocab_size (batches are stacked together)
-            #> ! important, otherwise softmax computation (e.g. with F.softmax()) is incorrect
+
             output_flat = output.view(-1, ntokens)
-            #output_candidates_info(output_flat.data, targets.data)
 
             subset = targets != unk_idx
-            subset = subset.data
-            #print(targets.size())
-            #print(subset.size())
             targets = targets[subset]
 
             output_flat = output_flat[torch.arange(0, output_flat.size(0), out=out_type)[subset]]
 
             total_len += targets.size(0)
-            total_loss += targets.size(0) * nn.CrossEntropyLoss()(output_flat, targets).data
+            total_loss += targets.size(0) * nn.CrossEntropyLoss()(output_flat, targets).item()
             hidden = repackage_hidden(hidden)
 
-    return total_loss[0] / total_len
+    return total_loss / total_len
 
 if torch.cuda.is_available():
     if not args.cuda:
         print("WARNING: You have a CUDA device, so you should probably run with --cuda")
-    #else:
-    #    torch.cuda.manual_seed(args.seed)
 
 
-
-#print(corpus.train)
 
 eval_batch_size = 32
 
@@ -99,7 +90,7 @@ with open(args.checkpoint, 'rb') as f:
         model = torch.load(f)
     else:
         # to convert model trained on cuda to cpu model
-        model = torch.load(f, map_location = lambda storage, loc: storage)
+        model = torch.load(f, map_location=lambda storage, loc: storage)
 
 print("Evaluation on non-unk tokens")
 # Run on test data.
